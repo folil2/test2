@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 String inputLocation = inputLocation_editText.getText().toString();
                 //ListView 활성화 & 지도 비활성화
                 linearLayoutTmap.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.INVISIBLE);
                 list_display = true;
                 //listData 초기화
                 listData.clear();
@@ -190,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-/*
-                                    Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-*/
+
+                                    //Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+
                                 }
                             });
                         }
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
 // listView 아이템 클릭 이벤트
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            Marker marker;
+            Marker marker=null;
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -212,9 +212,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onFindAllPOI(ArrayList<TMapPOIItem> arrayList) {
                         if (arrayList.isEmpty()) {
                             // 검색 결과가 없을 경우 처리
-/*
-                            Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-*/
+
+                            //Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+
                             return;
                         }
 
