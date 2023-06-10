@@ -261,7 +261,67 @@ public class MainActivity extends AppCompatActivity {
         //마커를 클릭하였을 때 onPressupEvent() 호출로
         //markerlist가 반환될 때 클릭된 마커의 리스트를 가져오는데
         //0번째 인덱스가 현재 클릭된 마커입니다.
+
+        //시험
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressEvent(ArrayList markerlist, ArrayList poilist, TMapPoint point, PointF pointf) {
+                return false;
+            }
+        @Override
+        public boolean onPressUpEvent(ArrayList<TMapMarkerItem> markerlist, ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
+            for (TMapMarkerItem markerItem : markerlist) {
+                TMapPoint toiletLocation = markerItem.getTMapPoint();
+
+                if (markerItem.getID().contains("marker_")) {
+                    String markerId = markerItem.getID();
+                    int toiletId = Integer.parseInt(markerId.substring("marker_".length())); // 마커 ID에서 "marker_"를 제거하여 화장실 ID로 사용
+
+                    for (Toilet toilet : toiletList) {
+                        if (toilet.getId()==toiletId) {
+                            // 화장실 정보를 찾았을 때의 처리 코드
+                            // 예를 들어, Intent를 사용하여 정보를 전달하거나 화면에 표시할 수 있음
+                            String toiletAddr = toilet.getDoro();
+                            String toiletName = toilet.getName();
+                            int toiletMan_so = toilet.getMan_so();
+                            int toiletMan_dae = toilet.getMan_dae();
+                            int toiletMan2_so = toilet.getMan2_so();
+                            int toiletMan2_dae = toilet.getMan2_dae();
+                            int toiletWoman = toilet.getWoman();
+                            int toiletWoman2 = toilet.getWoman2();
+                            double toiletLatitude = toilet.getLatitude();
+                            double toiletLongitude = toilet.getLongitude();
+
+
+                            Intent intent = new Intent(MainActivity.this, MapinfoActivity.class);
+                            intent.putExtra("id", toiletId);
+                            intent.putExtra("name", toiletName);
+                            intent.putExtra("address", toiletAddr);
+                            intent.putExtra("man_so", toiletMan_so);
+                            intent.putExtra("man_dae", toiletMan_dae);
+                            intent.putExtra("man2_so", toiletMan2_so);
+                            intent.putExtra("man2_dae", toiletMan2_dae);
+                            intent.putExtra("woman", toiletWoman);
+                            intent.putExtra("woman2", toiletWoman2);
+                            intent.putExtra("latitude", toiletLatitude);
+                            intent.putExtra("longitude", toiletLongitude);
+                            startActivity(intent);
+
+                            break;
+                        }
+                    }
+                }
+            }return false;
+        }
+
+        });
+
+
+
+//시험
+
+
+       /* tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressUpEvent(ArrayList markerlist, ArrayList poilist, TMapPoint point, PointF pointf) {
                 Log.d("Event", "onPressEvent triggered");
@@ -269,12 +329,16 @@ public class MainActivity extends AppCompatActivity {
                 TMapPoint toiletLocation = null;
                 //TMapMarkerItem markerItem = null;
                 for (int i = 0; i < markerlist.size(); i++) {
-                    TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(i);
-                    toiletLocation = markerItem.getTMapPoint();
+                    TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(i);//markerlist= 클릭된 좌표
+                    toiletLocation = markerItem.getTMapPoint();//저장된 화장실 좌표
 
                     // Check if the clicked marker corresponds to the current toilet
                     if (toiletLocation.getLatitude() == point.getLatitude() && toiletLocation.getLongitude() == point.getLongitude()) {
                         Toilet toilet = toiletList.get(i);
+                        Log.d("MyApp", "toilet: " + toilet);
+                        //Log.d("MyApp", "toilet: " + toiletList.get(i));
+                        //Log.d("MyApp", "toiletList size: " + toiletList.size());
+
                         String mapInfoName = toilet.getName(); // 화장실 이름
                         String mapInfoAddr = toilet.getDoro(); // 주소
                         int mapInfoMan_dae = toilet.getMan_dae(); // 남-대변기
@@ -299,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("longitude", longitude);
                         startActivity(intent);
                         return true; // Return true to indicate that the event has been handled
-                    }
+                    }break;
                 }
 
                 Log.d("MarkerClick", "Marker Location: " + point.getLatitude() + ", " + point.getLongitude());
@@ -315,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+*/
 
         //반복해서 출력됨
 // Set the click listener for the map view
@@ -515,7 +579,9 @@ public class MainActivity extends AppCompatActivity {
         //tMapView.setZoomLevel(15);//줌인
 
         tMapView.addMarkerItem("marker", markerItem);
+
     }
+
 
     @Override
     protected void onResume() {
