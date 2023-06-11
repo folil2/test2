@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowMetrics;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MapinfoActivity extends Activity {
@@ -33,6 +35,18 @@ public class MapinfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_info);
+
+        //돌아가기 버튼
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // MainActivity로 돌아가는 인텐트 생성
+                Intent intent = new Intent(MapinfoActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // 현재 액티비티를 종료하여 뒤로 가기 버튼으로 돌아가기
+            }
+        });
 
         getMapInfoName = findViewById(R.id.map_info_name2); //화장실명
         getMapInfoAddr = findViewById(R.id.map_info_address); //주소
